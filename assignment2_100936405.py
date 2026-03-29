@@ -164,13 +164,40 @@ def load_past_scans():
 # MAIN PROGRAM
 # ============================================================
 if __name__ == "__main__":
-    pass
-    # TODO: Get user input with try-except (Step ix)
-    # - Target IP (default "127.0.0.1" if empty)
-    # - Start port (1-1024)
-    # - End port (1-1024, >= start port)
-    # - Catch ValueError: "Invalid input. Please enter a valid integer."
-    # - Range check: "Port must be between 1 and 1024."
+    target = input("Enter target ip address: ").strip()
+    if target == "":
+        target = "127.0.0.1"
+    try:
+        start_port = int(input("Enter start port number: "))
+        end_port = int(input("Enter end port number: "))
+
+        if start_port < 1 or start_port > 1024 or end_port < 1 or end_port > 1024:
+            print("Port must be between 1 and 1024.")
+        elif end_port < start_port:
+            print("Ending port must be greater than or equal to starting port.")
+        else:
+            
+            scanner = PortScanner(target)
+            print(f"Scanning {target} from port {start_port} to {end_port}...")
+
+            scanner.scan_range(start_port, end_port)
+            open_ports = scanner.get_open_ports()
+
+            print(f"--- Scan Results for {target} ---")
+            for port, status, service in open_ports:
+                print(f"Port {port}: {status} ({service})")
+
+            print("------")
+            print(f"Total open ports found: {len(open_ports)}")
+
+            save_results(target, scanner.scan_results)
+            show_history = input("Would you like to see past scan history? (Yes/No): ").strip().lower()
+            if show_history == "Yes":
+                load_past_scans()
+
+    except ValueError:
+        print("Invalid Entry. Please enter a valid integer.")
+
 
     # TODO: After valid input (Step x)
     # - Create PortScanner object
