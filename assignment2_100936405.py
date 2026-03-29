@@ -48,34 +48,60 @@ class NetworkTool:
 # Implementing @property and @target.setter facilitates controlled access to the private variable.
 #It enables us to verify the value before changing it and helps prevent the introduction of invalid data.
 #This enhances data protection and renders the class more secure and adaptable.
-@property
-def target(self):
-    return self._target
+    @property
+    def target(self):
+        return self._target
 
-@target.setter
-def target(self, value):
-    if value != "":
-        self._target = value
-    else : print("Error: Must Select Target, Cannot Be Empty")
+    @target.setter
+    def target(self, value):
+        if value != "":
+            self._target = value
+        else : print("Error: Must Select Target, Cannot Be Empty")
 
-def _del_(self):
-    print("NetworkTool instance destroyed")
+    def _del_(self):
+        print("NetworkTool instance destroyed")
 
 # Q1: How does PortScanner reuse code from NetworkTool?
-# TODO: Your 2-4 sentence answer here... (Part 2, Q1)
+# The code of NetworkTool is recycled by PortScanner through inheritance. 
+# The PortScanner class does not require the rewriting of the code, as it inherits the target attribute, getter, and setter from NetworkTool. For instance, self may be implemented by PortScanner.target to access
+# the target IP address, as that functionality is already implemented in NetworkTool.
 class PortScanner(NetworkTool):
     def __init__(self, target):
         super().__init__(target)
         self.scan_results = []
         self.lock = threading.Lock()
 
-def _del_(self):
-    print("PortScanner instance destroyed")
-    super()._del_()
+    def _del_(self):
+        print("PortScanner instance destroyed")
+        super()._del_()
 
-#     Q4: What would happen without try-except here?
-#     TODO: Your 2-4 sentence answer here... (Part 2, Q4)
-#
+    def scan_port(self, port):
+#  Q4: What would happen without try-except here?
+#  The program could terminate unexpectedly if the try-except block were removed,
+#  as any socket error during the connection attempt could result in this. 
+#  The scanner is able to continue examining other ports despite the fact that one port 
+#  generates an error by managing the exception. 
+#  This enhances the program's dependability and stability.
+        try:
+            sock = socket.socket(socket.Af_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            result = sock.connect_ex((self.target, port))
+
+            if result == 0:
+                status = "Open"
+            else:
+                status = "Closed"
+
+            service_name = common_ports.get(port, "Unkown")
+            self.lock.acquire()
+            self.scan_result.append((port, status, service_name))
+            self.lock.release()
+
+        except socket.error as e:
+            print(f"Error scanning port {port}: {e}")  
+             
+        finally:
+            sock.close()             
 #     - try-except with socket operations
 #     - Create socket, set timeout, connect_ex
 #     - Determine Open/Closed status
