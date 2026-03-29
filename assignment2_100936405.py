@@ -99,20 +99,14 @@ class PortScanner(NetworkTool):
 
         except socket.error as e:
             print(f"Error scanning port {port}: {e}")  
-             
+
         finally:
             sock.close()             
-#     - try-except with socket operations
-#     - Create socket, set timeout, connect_ex
-#     - Determine Open/Closed status
-#     - Look up service name from common_ports (use "Unknown" if not found)
-#     - Acquire lock, append (port, status, service_name) tuple, release lock
-#     - Close socket in finally block
-#     - Catch socket.error, print error message
-#
-# - get_open_ports(self):
-#     - Use list comprehension to return only "Open" results
-#
+
+    def get_open_ports(self):
+        return [result for result in self.scan_results if result[1] == "Open"]
+    
+
 #     Q2: Why do we use threading instead of scanning one port at a time?
 #     TODO: Your 2-4 sentence answer here... (Part 2, Q2)
 #
