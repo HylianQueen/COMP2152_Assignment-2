@@ -146,13 +146,18 @@ def save_results(target, results):
     except sqlite3.Error as e:
         print("Database error:", e)
 
+def load_past_scans():
+    try:
+        conn = sqlite3.connet("scan_history.db")
+        cursor = conn.cursor()
 
-# TODO: Create load_past_scans() function (Step viii)
-# - Connect to scan_history.db
-# - SELECT all from scans
-# - Print each row in readable format
-# - Handle missing table/db: print "No past scans found."
-# - Close connection
+        cursor.excecute("SELECT * FROM scans")
+        rows = cursor.fetchall()
+
+        conn.close()
+    except sqlite3.Error:
+        print("No past scans have been found.")
+
 
 
 # ============================================================
