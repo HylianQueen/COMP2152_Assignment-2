@@ -19,18 +19,47 @@ print("Operating System:", os.name)
 
 # TODO: Create the common_ports dictionary (Step iv)
 # Add a 1-line comment above it explaining what it stores
-
+# A Dictionary that stores the most common port nums and thei names.
+common_ports = {
+    21: "FTP",
+    22: "SSH",
+    23: "Telnet",
+    25: "SMTP",
+    53: "DNS",
+    80: "HTTP",
+    110: "POP3",
+    143: "IMAP",
+    443: "HTTPS",
+    3306: "MySQL",
+    3389: "RDP",
+    8080: "HTTP-Alt"
+}
 
 # TODO: Create the NetworkTool parent class (Step v)
 # - Constructor: takes target, stores as private self.__target
 # - @property getter for target
 # - @target.setter with empty string validation
 # - Destructor: prints "NetworkTool instance destroyed"
-
+class NetworkTool:
+    def __init__(self, target):
+        self.__target = target
 
 # Q3: What is the benefit of using @property and @target.setter?
-# TODO: Your 2-4 sentence answer here... (Part 2, Q3)
+# TODO: #Implementing @property and @target.setter facilitates controlled access to the private variable.
+#It enables us to verify the value before changing it and helps prevent the introduction of invalid data.
+#This enhances data protection and renders the class more secure and adaptable.
+@property
+def target(self):
+    return self._target
 
+@target.setter
+def target(self, value):
+    if value != "":
+        self._target = value
+    else : print("Error: Must Select Target, Cannot Be Empty")
+
+def _del_(self):
+    print("NetworkTool instance destroyed")
 
 # Q1: How does PortScanner reuse code from NetworkTool?
 # TODO: Your 2-4 sentence answer here... (Part 2, Q1)
