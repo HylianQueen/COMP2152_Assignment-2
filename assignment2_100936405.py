@@ -45,7 +45,7 @@ class NetworkTool:
         self.__target = target
 
 # Q3: What is the benefit of using @property and @target.setter?
-# TODO: #Implementing @property and @target.setter facilitates controlled access to the private variable.
+# Implementing @property and @target.setter facilitates controlled access to the private variable.
 #It enables us to verify the value before changing it and helps prevent the introduction of invalid data.
 #This enhances data protection and renders the class more secure and adaptable.
 @property
@@ -63,12 +63,16 @@ def _del_(self):
 
 # Q1: How does PortScanner reuse code from NetworkTool?
 # TODO: Your 2-4 sentence answer here... (Part 2, Q1)
+class PortScanner(NetworkTool):
+    def __init__(self, target):
+        super().__init__(target)
+        self.scan_results = []
+        self.lock = threading.Lock()
 
-# TODO: Create the PortScanner child class that inherits from NetworkTool (Step vi)
-# - Constructor: call super().__init__(target), initialize self.scan_results = [], self.lock = threading.Lock()
-# - Destructor: print "PortScanner instance destroyed", call super().__del__()
-#
-# - scan_port(self, port):
+def _del_(self):
+    print("PortScanner instance destroyed")
+    super()._del_()
+
 #     Q4: What would happen without try-except here?
 #     TODO: Your 2-4 sentence answer here... (Part 2, Q4)
 #
