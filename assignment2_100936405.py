@@ -124,12 +124,27 @@ class PortScanner(NetworkTool):
         for thread in threads:
             thread.join()
 
-# TODO: Create save_results(target, results) function (Step vii)
-# - Connect to scan_history.db
-# - CREATE TABLE IF NOT EXISTS scans (id, target, port, status, service, scan_date)
-# - INSERT each result with datetime.datetime.now()
-# - Commit, close
-# - Wrap in try-except for sqlite3.Error
+def save_results(target, results):
+    try:
+        conn = sqlite3.connect("scan_history.db")
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS scans (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, target TEXT,
+            port INTEGER, status TEXT, service TEXT, scan_date TEXT
+        )
+        """)
+        for port, status, service in results:
+            cursor.execute(
+                "INSERT INTO scans (target, port, status, service, scan_date) VALUES (?, ?, ?, ?, ?)",
+                (target, port, status, service, str(datetime.datetime.now()))
+            )
+        conn.commit()
+        conn.close()
+
+    except sqlite3.Error as e:
+        print("Database error:", e)
 
 
 # TODO: Create load_past_scans() function (Step viii)
