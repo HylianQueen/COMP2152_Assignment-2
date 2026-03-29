@@ -1,15 +1,21 @@
 """
-Author: <YOUR REAL FIRST AND LAST NAME>
+Author: Zelda Leona Pelletier
 Assignment: #2
 Description: Port Scanner — A tool that scans a target machine for open network ports
 """
 
 # TODO: Import the required modules (Step ii)
 # socket, threading, sqlite3, os, platform, datetime
-
+import socket
+import threading
+import sqlite3
+import os
+import platform
+import datetime
 
 # TODO: Print Python version and OS name (Step iii)
-
+print ("Python Vesrsion:",platform.python_version())
+print("Operating System:", os.name)
 
 # TODO: Create the common_ports dictionary (Step iv)
 # Add a 1-line comment above it explaining what it stores
