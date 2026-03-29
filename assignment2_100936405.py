@@ -106,16 +106,23 @@ class PortScanner(NetworkTool):
     def get_open_ports(self):
         return [result for result in self.scan_results if result[1] == "Open"]
     
-
+   
 #     Q2: Why do we use threading instead of scanning one port at a time?
-#     TODO: Your 2-4 sentence answer here... (Part 2, Q2)
-#
-# - scan_range(self, start_port, end_port):
-#     - Create threads list
-#     - Create Thread for each port targeting scan_port
-#     - Start all threads (one loop)
-#     - Join all threads (separate loop)
+# Threading allows the program to simultaneously scan numerous terminals, thereby accelerating the scan process.
+# The program could take a long time to complete if 1024 ports were scanned one by one, as each connection waits for a response or termination.
+# The scanner is more efficient and its performance is enhanced by the use of threads.
+    def scan_range(self, start_port, end_port):
+        threads = []
 
+        for port in range( start_port, end_port + 1):
+            thread = threading.Thread(target=self.scan_port, args=(port,))
+            threads.append(thread)
+
+        for thread in threads: 
+            thread.start()
+        
+        for thread in threads:
+            thread.join()
 
 # TODO: Create save_results(target, results) function (Step vii)
 # - Connect to scan_history.db
