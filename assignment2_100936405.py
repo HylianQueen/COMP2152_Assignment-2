@@ -63,7 +63,8 @@ class NetworkTool:
 
 # Q1: How does PortScanner reuse code from NetworkTool?
 # The code of NetworkTool is recycled by PortScanner through inheritance. 
-# The PortScanner class does not require the rewriting of the code, as it inherits the target attribute, getter, and setter from NetworkTool. For instance, self may be implemented by PortScanner.target to access
+# The PortScanner class does not require the rewriting of the code, as it inherits the target attribute, getter, and setter from NetworkTool.
+# For instance, self may be implemented by PortScanner.target to access
 # the target IP address, as that functionality is already implemented in NetworkTool.
 class PortScanner(NetworkTool):
     def __init__(self, target):
@@ -199,17 +200,10 @@ if __name__ == "__main__":
         print("Invalid Entry. Please enter a valid integer.")
 
 
-    # TODO: After valid input (Step x)
-    # - Create PortScanner object
-    # - Print "Scanning {target} from port {start} to {end}..."
-    # - Call scan_range()
-    # - Call get_open_ports() and print results
-    # - Print total open ports found
-    # - Call save_results()
-    # - Ask "Would you like to see past scan history? (yes/no): "
-    # - If "yes", call load_past_scans()
-
-
 # Q5: New Feature Proposal
-# TODO: Your 2-3 sentence description here... (Part 2, Q5)
+# I would incorporate a feature that allows users to save the scan results locally by exporting them to a.txt file.
+# Before writing the scan results to the file, I would convert them to formatted text lines using a list comprehension. 
+# This would simplify the process of maintaining a record of scans without the need to open the database each time.
+
+
 # Diagram: See diagram_studentID.png in the repository root
